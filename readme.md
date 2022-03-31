@@ -3,11 +3,11 @@
 ### [Ласкаво просимо](welcome.md)
 
 ### Основи
-+ #### [Рахунки {Accounts}](basics-accounts)
-+ #### [Події (Events)](basics-events)
-+ #### [Повний вузол (Full Node)](basics-fullnodes)
++ #### [Рахунки {Accounts}](basics-accounts.md)
++ #### [Події (Events)](basics-events.md)
++ #### [Повний вузол (Full Node)](basics-fullnodes.md)
 + #### Вузол перевірки (Validator Node)
-+ #### [Комісія за газ та транзакції (Gas and transaction fees)](basics-gas-txn-fee)
++ #### [Комісія за газ та транзакції (Gas and transaction fees)](basics-gas-txn-fee.md)
 + #### Доказ (Proof)  
 + #### Топологія мережі вузлів (Node networks and synchronization)  
 + #### Транзакції та стани (Transactions and states)
