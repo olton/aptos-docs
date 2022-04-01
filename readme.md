@@ -23,5 +23,5 @@
 + #### [Run a Full Node](run-a-fullnode.md)
 ### Посилання
 + #### Глосарій
-### Додаткові джерела 
-+ #### [NodesGuru](additional-nodesguru.md)
+### Додаткові способи встановлення 
++ #### [Nodes.guru](additional-nodesguru.md)
