@@ -25,3 +25,4 @@
 + #### Глосарій
 ### Додаткові способи встановлення 
 + #### [Nodes.guru](additional-nodesguru.md)
++ #### [zvalid.com](additional-zvalid.md)
