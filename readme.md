@@ -27,3 +27,4 @@
 + #### [Nodes.guru](additional-nodesguru.md)
 + #### [zvalid.com](additional-zvalid.md)
 ### FAQ
++ #### [Різні FAQ](faq.md)
