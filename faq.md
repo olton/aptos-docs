@@ -1,5 +1,13 @@
 # FAQ
 
+#### [Як встановити ноду?]()
+
+Ви можете встановити ноду декількама способами:
+1. З офіційного гайду - https://aptos.dev/tutorials/run-a-fullnode
+2. З перекладу офіційного гайду - https://github.com/olton/aptos-docs/blob/master/run-a-fullnode.md
+3. За допомогою однострочної команди від nodes.guru - https://github.com/olton/aptos-docs/blob/master/additional-nodesguru.md
+3. За допомогою однострочної команди від zvalid.com - https://github.com/olton/aptos-docs/blob/master/additional-zvalid.md
+
 #### [Що таке конфігураційний файл?]()
 
 Конфігураційний файл (в більшості випадків він має назву `public_full_node.yaml`) - це файл, в якому прописані ключеві параметри вузла, такі як:
@@ -7,6 +15,13 @@
 + статична ідентифікація вузла
 + первинні вузли для сінхронізації
 + інша інформація яка характеризує роботу вузла і може бути змінена
+
+Де шукать цей файл, якщо встановлювали:
++ офіційний гайд - `~/aptos-core` або `~/aptos`
++ nodes.guru - `~/.aptos/config`
++ zvalid.com - `~/aptos`
+
+> Перейти до потрібної папки можна за допомогою команди `cd folder_path`
 
 #### [Помилка NoAvailablePeers]()
 
