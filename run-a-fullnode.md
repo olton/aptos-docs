@@ -253,8 +253,143 @@ FullNodes автоматично запуститься з випадково з
 1. Створення приватного ключа
 2. Створення ідентифікатора вузла `peer_id` та публічного ключа `public_key`
 
-Створіть **aptos-operational-tool**, використовуючи репозиторій [aptos-labs/aptos-core](https://github.com/aptos-labs/aptos-core.git). Ми можемо використовувати cargo для створення та використання цих інструментів, наприклад:
+Для генерування ключів нам знадобиться інструмент `aptos-operational-tool`.
+
+#### Якщо ви використовуєте вихідні файли
+
+Створимо каталог для зберігання ключів:
+```shell
+mkdir ~/keys
+```
+
+Генеруємо приватний ключ. Запустіть генератор ключів, щоб створити шістнадцятковий закодований статичний закритий ключ x25519. Це буде приватний ключ для ідентифікації вашої мережі.
+```shell
+cd ~/aptos
+cargo run -p aptos-operational-tool -- generate-key --encoding hex --key-type x25519 --key-file ~/keys/private-key.txt
+```
+
+Ця команда створить файл `private-key.txt`, який містиме приватний ключ для вашого вузла.
+
+Переглянути вміст ключового файлу можна за допомогою команди `cat`:
+```shell
+cat ~/keys/private-key.txt
+```
+Приклад ключового файлу:
+```shell
+B8BD811A91D8E6E0C6DAC991009F189337378760B55F3AD05580235325615C74
+```
+
+Генеруємо `peer_id` та `public_key`
+```shell
+cargo run -p aptos-operational-tool -- extract-peer-from-file --encoding hex --key-file ~/keys/private-key.txt --output-file ~/keys/peer-info.yaml
+```
+
+Це створить файл yaml, у якому буде ваш публічний ідентифікатор. Це корисно, якщо ви хочете підключити свій FullNode до певного висхідного FullNode, і цей FullNode дозволяє лише відомим ідентифікаторам підключатися до них.
+
+Приклад виведення `peer-info.yaml`:
 
 ```shell
+ ---
+ ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575:
+   addresses: []
+   keys:
+     - ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575
+   role: Downstream
+```
 
+У цьому прикладі ***ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575*** є ідентифікатором peer_id для вузла, а також відкритим ключем, який походить із закритого ключа, який ви створили на попередньому кроці.
+
+#### Якщо ви використовуєте Docker
+
+Крім того, ви можете використовувати наше зображення докера. Запустіть контейнер докерів із найновішими інструментами, наприклад:
+
+```shell
+docker run -i aptoslab/tools:devnet sh -x
+```
+
+Запустіть генератор ключів, щоб створити шістнадцятковий закодований статичний закритий ключ x25519. Це буде приватний ключ для ідентифікації вашої мережі.
+
+```shell
+mkdir ~/keys
+aptos-operational-tool generate-key --encoding hex --key-type x25519 --key-file ~/keys/private-key.txt
+```
+
+Отримайте ідентифікатор загальнодоступної мережі
+```shell
+aptos-operational-tool extract-peer-from-file --encoding hex --key-file ~/keys/private-key.txt --output-file ~/keys/peer-info.yaml
+```
+
+### Запуск вузла зі статичним ідентифікатором мережі
+
+Як тільки ми отримаємо статичну ідентифікацію, ми можемо запустити вузол, змінивши файл конфігурації (наприклад, в файлі `public_full_node.yaml`):
+
+```yaml
+full_node_networks:
+- network_id: "public"
+  discovery_method: "onchain"
+  identity:
+    type: "from_config"
+    key: "<PRIVATE_KEY>"
+    peer_id: "<PEER_ID>"
+```
+
+У нашому прикладі ми вказуємо:
+
+```yaml
+full_node_networks:
+- network_id: "public"
+  discovery_method: "onchain"
+  identity:
+    type: "from_config"
+    key: "B8BD811A91D8E6E0C6DAC991009F189337378760B55F3AD05580235325615C74"
+    peer_id: "ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575"
+```
+
+## Дозволити іншим повним вузлам підключатися до вашого вузла
+
+Після того, як ви запустите свій FullNode зі статичним ідентифікатором, ви можете дозволити іншим підключатися до devnet через ваш вузол. Переконайтеся, що ви відкрили порт 6180 (або 6182, залежно від того, який порт прослуховує ваш вузол) і що ви відкрили свій брандмауер. Вам потрібно буде поділитися інформацією про FullNode, щоб інші могли використовувати її як початкові дані у своїх конфігураціях (наприклад, peer-info.yaml).
+
+Щоб відкрити прослуховування порта для зовнішних підключень порібно в конфігураційному файлі змінити запис
+
+с
+```yaml
+full_node_networks:
+  listen_address: "/ip4/127.0.0.1/tcp/6180"
+```
+на
+```yaml
+full_node_networks:
+  listen_address: "/ip4/0.0.0.0/tcp/6180"
+```
+
+Інформація, яку ви надаєте іншим вузлам має вигляд:
+```yaml
+<Peer_ID>:
+  addresses:
+  # with DNS
+  - "/dns4/<DNS_Name>/tcp/<Port_Number>/ln-noise-ik/<Public_Key>/ln-handshake/0"
+  role: Upstream
+<Peer_ID>:
+  addresses:
+  # with IP
+  - "/ip4/<IP_Address>/tcp/<Port_Number>/ln-noise-ik/<Public_Key>/ln-handshake/0"
+  role: Upstream
+```
+
+Тоб то (нехай наш сервер має доменне ім"я aptos-node.com та IP адресу 1.1.1.1):
+
+Якщо ми використовуєм доменне ім"я
+```yaml
+ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575:
+  addresses:
+  - "/dns4/aptos-node.com/tcp/6180/ln-noise-ik/ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575/ln-handshake/0"
+  role: "Upstream"
+```
+
+Якщо ми використовуєм IP адресу
+```yaml
+ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575:
+  addresses:
+  - "/ip4/1.1.1.1/tcp/6182/ln-noise-ik/ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575/ln-handshake/0"
+  role: "Upstream"
 ```
