@@ -103,3 +103,20 @@ journalctl -u aptosd -f
 1. Якщо потрібно збережіть раніше згенеровані ключи та конфігураційні файли
 2. Видалить ноду
 3. Встановіть нову версію за інструкцією вище
+
+### Перевірка стану синхронізації
+
+Щоб перевірити стан сінхронізації вашого вузла, виконайте команду:
+```shell
+curl 127.0.0.1:9101/metrics 2> /dev/null | grep aptos_state_sync_version | grep type
+```
+
+Якщо все гаразд, ви побачете 4 рядкі, що таке:
+```shell
+aptos_state_sync_version{type="committed"} 206559
+aptos_state_sync_version{type="highest"} 206559
+aptos_state_sync_version{type="synced"} 206559
+aptos_state_sync_version{type="target"} 206560
+```
+
+Якщо ви не бичите 4 рядкі, значить щось пішло  не так, требі дивитись логі.
