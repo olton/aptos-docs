@@ -20,6 +20,6 @@
 + #### Ваш перший модуль Move
 + #### Ваш перший NFT
 + #### Run a Local Testnet
-+ #### Run a Full Node
++ #### [Run a Full Node](run-a-fullnode.md)
 ### Посилання
 + #### Глосарій
