@@ -47,8 +47,8 @@ If running the Fullnode for development or testing purpose:
 > Зверніть увагу, що кожна строка - це окрема команда!
 
 ```shell
-git clone https://github.com/aptos-labs/aptos-core.git aptos
-cd aptos
+git clone https://github.com/aptos-labs/aptos-core.git
+cd aptos-core
 ./scripts/dev_setup.sh
 source ~/.cargo/env
 git checkout origin/devnet
@@ -56,15 +56,15 @@ git checkout origin/devnet
 
 **Підготовка конфігураційного файлу:**
 
-Скопіюйте файл `config/src/config/test_data/public_full_node.yaml` у ваш поточний робочий каталог:
+Скопіюйте файл `config/src/config/test_data/public_full_node.yaml` у ваш поточний робочий каталог (це має бути каталог `~/aptos-core`):
 ```shell
 cp config/src/config/test_data/public_full_node.yaml ./public_full_node.yaml
 ```
 
 Завантажте генезіс файл і файл маршрутної точки:
 ```shell
-wget https://devnet.aptoslabs.com/genesis.blob
-wget https://devnet.aptoslabs.com/waypoint.txt
+wget -O genesis.blob https://devnet.aptoslabs.com/genesis.blob
+wget -O waypoint.txt https://devnet.aptoslabs.com/waypoint.txt
 ```
 
 **Внесення змін до конфігураційного файлу:**
@@ -120,20 +120,20 @@ sudo apt-get install -y docker-compose
 
 Створіть каталог для вашої загальнодоступної композиції FullNode:
 ```shell
-mkdir ~/aptos
-cd aptos
+mkdir ~/aptos-core
+cd aptos-core
 ```
 
-Завантажте загальнодоступні файли конфігурації FullNode докера compose та aptos-core в цей каталог:
+Завантажте загальнодоступні файли конфігурації FullNode докера compose та aptos в цей каталог:
 ```shell
-wget https://github.com/aptos-labs/aptos-core/tree/main/docker/compose/public_full_node/docker-compose.yaml
-wget https://github.com/aptos-labs/aptos-core/tree/main/docker/compose/public_full_node/public_full_node.yaml
+wget -O docker-compose.yaml https://github.com/aptos-labs/aptos-core/tree/main/docker/compose/public_full_node/docker-compose.yaml
+wget -O public_full_node.yaml https://github.com/aptos-labs/aptos-core/tree/main/docker/compose/public_full_node/public_full_node.yaml
 ```
 
 Завантажте генезіс файл і файл маршрутної точки:
 ```shell
-wget https://devnet.aptoslabs.com/genesis.blob
-wget https://devnet.aptoslabs.com/waypoint.txt
+wget -O genesis.blob https://devnet.aptoslabs.com/genesis.blob
+wget -O waypoint.txt https://devnet.aptoslabs.com/waypoint.txt
 ```
 
 Запустіть docker-compose: 
@@ -199,7 +199,7 @@ aptos_connections{direction="outbound",network_id="Public",peer_id="cebe0ad2",ro
 
 Якщо ви запустили вузол із вихідних файлів:
 ```shell
-du -cs -BM ~/aptos/data
+du -cs -BM ~/aptos-core/data
 ```
 
 Якщо ви запустили вузол за допомогою Docker
@@ -264,7 +264,7 @@ mkdir ~/keys
 
 Генеруємо приватний ключ. Запустіть генератор ключів, щоб створити шістнадцятковий закодований статичний закритий ключ x25519. Це буде приватний ключ для ідентифікації вашої мережі.
 ```shell
-cd ~/aptos
+cd ~/aptos-core
 cargo run -p aptos-operational-tool -- generate-key --encoding hex --key-type x25519 --key-file ~/keys/private-key.txt
 ```
 
@@ -393,3 +393,20 @@ ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575:
   - "/ip4/1.1.1.1/tcp/6182/ln-noise-ik/ca3579457555c80fc7bb39964eb298c414fd60f81a2f8eedb0244ec07a26e575/ln-handshake/0"
   role: "Upstream"
 ```
+
+## Оновлення вузла
+
+> Адреси Aptos тепер мають довжину 32-байти замість 16-байт. Якщо ви додавали початкові seeds, переконайтеся, що ви оновили їх до нового 32-байтового формату.
+Для людей, які використовують статичну ідентифікацію, ви можете відновити свою ідентичність, дотримуючись тієї ж самої інструкції.
+
+
+Коли devnet буде видалено та оновлено новішими версіями, вам також потрібно буде оновити FullNode. Якщо ви цього не зробите, він не продовжить синхронізацію з мережею. Для цього виконайте такі дії:
+
+1. Вимкніть повний вузол.
+2. Видаліть папку з даними (шлях до каталогу – це те, що ви вказали у файлі конфігурації).
+3. Видаліть файл genesis.blob і файл waypoint.txt (залежно від того, як ви його налаштували, у вас може не бути цього файлу, а натомість у вашому файлі конфігурації може бути маршрутна точка).
+4. If you use the rust binary, pull the latest of devnet branch, and build the binary again.
+5. Завантажте цей новий файл genesis.blob і нову точку маршруту.
+6. Оновіть файл конфігурації (наприклад, public_full_node.yaml) новою точкою маршруту (якщо ви налаштуєте маршрутну точку безпосередньо там).
+7. Перезапустіть повний вузол.
+
