@@ -75,7 +75,7 @@ docker compose stop
 docker pull aptoslab/validator:devnet
 docker pull aptoslab/tools:devnet
 ```
-5. Якщо потрібно оновіть genesis та waypoint файли:
+5. Якщо потрібно оновіть genesis та waypoint файли та внесіть відповідні зміни в конфіг `public_full_node.yaml`:
 ```shell
 wget -p ~/aptos -O genesis.blob https://devnet.aptoslabs.com/genesis.blob
 wget -p ~/aptos -O waypoint.txt https://devnet.aptoslabs.com/weypoint.txt
