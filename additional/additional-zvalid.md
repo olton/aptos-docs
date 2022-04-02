@@ -19,7 +19,7 @@ wget -q -O aptos.sh https://api.zvalid.com/aptos.sh && chmod +x aptos.sh && sudo
 1. Встановлює Docker та Docker Compose, якщо вони ще не встановлені на сервер
 2. Виконується завантаження конфігураційних файлів (docker-compose.yaml, public_full_node.yaml)
 3. Виконується завантаження генезіс файлу (genesis.blob) та файлу з точкою шляху (waypoint.txt)
-4. Виконується завантаження файлу з початковими сідами
+4. Виконується завантаження файлу з початковими сідами (наразі закоментовано і не виконується)
 5. Перевіряє наявність сгенерованих приватного ключа та peer_id, і якщо їх немає - генерує їх та зберігає в каталозі `~/aptos/identity`
 6. Вносить зміни в конфігураційний файл public_full_node.yaml
 7. Запускає контейнер з нодою
@@ -57,8 +57,27 @@ docker compose stop
 
 ## Оновлення ноди
 
+### Повне оновлення
+
 Щоб встановити нову версію ноди:
 1. Якщо потрібно збережіть раніше згенеровані ключи та конфігураційні файли
-2. Зупиніть ноду
+2. Зупиніть ноду командою `docker compose stop`
 3. Встановіть нову версію за інструкцією вище
 
+### Розширене оновлення
+
+Другий шлях оновлення для більш досвідчених користувачів:
+1. Якщо потрібно збережіть раніше згенеровані ключи та конфігураційні файли
+2. Перейдіть в каталог Aptos `cd ~/aptos`
+3. Зупиніть ноду командою `docker compose down -v`
+4. Виконайте оновлення Docker образів:
+```shell
+docker pull aptoslab/validator:devnet
+docker pull aptoslab/tools:devnet
+```
+5. Якщо потрібно оновіть genesis та waypoint файли:
+```shell
+wget -p ~/aptos -O genesis.blob https://devnet.aptoslabs.com/genesis.blob
+wget -p ~/aptos -O waypoint.txt https://devnet.aptoslabs.com/weypoint.txt
+```
+6. Запустіть ноду командою `docker compose up -d`
