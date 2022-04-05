@@ -6,7 +6,7 @@
 + #### [Рахунки {Accounts}](basics/basics-accounts.md)
 + #### [Події (Events)](basics/basics-events.md)
 + #### [Повний вузол (Full Node)](basics/basics-fullnodes.md)
-+ #### Вузол перевірки (Validator Node)
++ #### [Вузол перевірки (Validator Node)](basics/basics-validator-nodes.md)
 + #### [Комісія за газ та транзакції (Gas and transaction fees)](basics/basics-gas-txn-fee.md)
 + #### [Доказ (Proof)](basics/basics-merkle-proof.md)  
 + #### [Топологія мережі вузлів (Node networks and synchronization)](basics/basics-node-networks-sync.md)  
