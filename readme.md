@@ -9,7 +9,7 @@
 + #### Вузол перевірки (Validator Node)
 + #### [Комісія за газ та транзакції (Gas and transaction fees)](basics/basics-gas-txn-fee.md)
 + #### [Доказ (Proof)](basics/basics-merkle-proof.md)  
-+ #### Топологія мережі вузлів (Node networks and synchronization)  
++ #### [Топологія мережі вузлів (Node networks and synchronization)](basics/basics-node-networks-sync.md)  
 + #### Транзакції та стани (Transactions and states)
 ### Транзакції
 + #### Життя транзакції (Life of transaction)
