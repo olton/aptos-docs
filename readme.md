@@ -8,7 +8,7 @@
 + #### [Повний вузол (Full Node)](basics/basics-fullnodes.md)
 + #### Вузол перевірки (Validator Node)
 + #### [Комісія за газ та транзакції (Gas and transaction fees)](basics/basics-gas-txn-fee.md)
-+ #### Доказ (Proof)  
++ #### [Доказ (Proof)](basics/basics-merkle-proof.md)  
 + #### Топологія мережі вузлів (Node networks and synchronization)  
 + #### Транзакції та стани (Transactions and states)
 ### Транзакції
