@@ -10,7 +10,7 @@
 + #### [Комісія за газ та транзакції (Gas and transaction fees)](basics/basics-gas-txn-fee.md)
 + #### [Доказ (Proof)](basics/basics-merkle-proof.md)  
 + #### [Топологія мережі вузлів (Node networks and synchronization)](basics/basics-node-networks-sync.md)  
-+ #### Транзакції та стани (Transactions and states)
++ #### [Транзакції та стани (Transactions and states)](basics/basics-txns-states.md)
 ### Транзакції
 + #### Життя транзакції (Life of transaction)
 + #### Взаємодія з блокчейном Aptos (Interacting with the Aptos Blockchain)
