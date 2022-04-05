@@ -24,7 +24,7 @@
 ### Посилання
 + #### Глосарій
 ### Додаткові способи встановлення 
-+ #### [Nodes.guru](additional/additional-nodesguru.md)
-+ #### [zvalid.com](additional/additional-zvalid.md)
++ #### [Nodes.guru - З вихідніх файлів](additional/additional-nodesguru.md)
++ #### [zvalid.com - За допомогою Docker](additional/additional-zvalid.md)
 ### FAQ
 + #### [Різні FAQ](faq/faq.md)
